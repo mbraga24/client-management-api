@@ -2,6 +2,9 @@ package com.havefunwith;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -19,15 +22,21 @@ public class Main {
         customers = new ArrayList<>();
 
         Customer john = new Customer(1, "John", 24, "john@email.com");
-        Customer keila = new Customer(2, "Keila", 28, "keila@email.com");
+        Customer keyla = new Customer(2, "Keyla", 28, "keila@email.com");
 
         customers.add(john);
         customers.add(keila);
     }
 
     public static void main(String[] args) {
-        System.out.println("Customers DB :: " + customers);
+//        System.out.println("Customers DB :: " + customers);
         SpringApplication.run(Main.class, args);
+    }
+
+//    @RequestMapping(value = "/api/v1/customers", method = RequestMethod.GET)
+    @GetMapping("/api/v1/customers")
+    public List<Customer> getCustomers() {
+        return customers;
     }
 
     static class Customer {
