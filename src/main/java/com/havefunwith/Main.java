@@ -1,95 +1,87 @@
 package com.havefunwith;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
+
 @SpringBootApplication
-//@Configuration
-//@EnableAutoConfiguration
-//@ComponentScan
-@RestController
 public class Main {
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
 
-    @GetMapping("/greeting")
-    public String greet() {
-        return "Hello there!";
-    }
+    class Customer {
+        private Integer id;
+        private String name;
+        private Integer age;
+        private String email;
 
-    @GetMapping("/greetResponse")
-    public GreetResponse greetResponse(
-            @RequestParam(value = "name", required = false) String name) {
-        String greetMessage = name == null || name.isBlank() ? "Hey!" : "Hello " + name.toUpperCase(Locale.ROOT);
-        return new GreetResponse(
-                greetMessage,
-                List.of("Java", "JavaScript", "Python"),
-                new Person("Michael", 27, 30_000));
-    }
+        public Customer() {}
 
-    record Person(String name, int age, double savings) {}
-//    record GreetResponse(
-//            String greet,
-//            List<String> favProgrammingLanguages,
-//            Person person) {}
-
-    // This class will function the same way as the record GreetResponse created above
-    class GreetResponse {
-        private final String greet;
-        private final List<String> favProgrammingLanguages;
-        private final Person person;
-
-        public GreetResponse(String greet, List<String> favProgrammingLanguages, Person person) {
-            this.greet = greet;
-            this.favProgrammingLanguages = favProgrammingLanguages;
-            this.person = person;
+        public Customer(Integer id, String name, Integer age, String email) {
+            this.id = id;
+            this.name = name;
+            this.age = age;
+            this.email = email;
         }
 
-        public String getGreet() {
-            return greet;
+        public Integer getId() {
+            return id;
         }
 
-        public List<String> getFavProgrammingLanguages() {
-            return favProgrammingLanguages;
+        public void setId(Integer id) {
+            this.id = id;
         }
 
-        public Person getPerson() {
-            return person;
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getAge() {
+            return age;
+        }
+
+        public void setAge(Integer age) {
+            this.age = age;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
         }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            GreetResponse that = (GreetResponse) o;
-            return Objects.equals(greet, that.greet) && Objects.equals(favProgrammingLanguages, that.favProgrammingLanguages) && Objects.equals(person, that.person);
+            Customer customer = (Customer) o;
+            return Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(age, customer.age) && Objects.equals(email, customer.email);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(greet, favProgrammingLanguages, person);
+            return Objects.hash(id, name, age, email);
         }
 
         @Override
         public String toString() {
-            return "GreetResponse{" +
-                    "greet='" + greet + '\'' +
-                    ", favProgrammingLanguages=" + favProgrammingLanguages +
-                    ", person=" + person +
+            return "Customer{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", age=" + age +
+                    ", email='" + email + '\'' +
                     '}';
         }
     }
+
 }
