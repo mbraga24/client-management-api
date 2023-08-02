@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @SpringBootApplication
@@ -29,9 +31,11 @@ public class Main {
     }
 
     @GetMapping("/greetResponse")
-    public GreetResponse greetResponse() {
+    public GreetResponse greetResponse(
+            @RequestParam(value = "name", required = false) String name) {
+        String greetMessage = name == null || name.isBlank() ? "Hey!" : "Hello " + name.toUpperCase(Locale.ROOT);
         return new GreetResponse(
-                "Hey there!",
+                greetMessage,
                 List.of("Java", "JavaScript", "Python"),
                 new Person("Michael", 27, 30_000));
     }
