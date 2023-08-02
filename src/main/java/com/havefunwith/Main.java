@@ -2,18 +2,35 @@ package com.havefunwith;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
 @SpringBootApplication
+@RestController
 public class Main {
 
+    private static List<Customer> customers;
+
+    static {
+        customers = new ArrayList<>();
+
+        Customer john = new Customer(1, "John", 24, "john@email.com");
+        Customer keila = new Customer(2, "Keila", 28, "keila@email.com");
+
+        customers.add(john);
+        customers.add(keila);
+    }
+
     public static void main(String[] args) {
+        System.out.println("Customers DB :: " + customers);
         SpringApplication.run(Main.class, args);
     }
 
-    class Customer {
+    static class Customer {
         private Integer id;
         private String name;
         private Integer age;
