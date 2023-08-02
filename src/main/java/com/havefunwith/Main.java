@@ -2,10 +2,7 @@ package com.havefunwith;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +22,7 @@ public class Main {
         Customer keyla = new Customer(2, "Keyla", 28, "keila@email.com");
 
         customers.add(john);
-        customers.add(keila);
+        customers.add(keyla);
     }
 
     public static void main(String[] args) {
@@ -37,6 +34,15 @@ public class Main {
     @GetMapping("/api/v1/customers")
     public List<Customer> getCustomers() {
         return customers;
+    }
+
+    @GetMapping("/api/v1/customers/{customerId}")
+    public Customer getCustomer(@PathVariable Integer customerId) {
+        return customers.stream()
+                .filter(customer -> customer.id.equals(customerId))
+                .findFirst()
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Customer with id [%s] not found.".formatted(customerId)));
     }
 
     static class Customer {
