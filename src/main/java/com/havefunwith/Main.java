@@ -20,10 +20,10 @@ public class Main {
         ConfigurableApplicationContext applicationContext =
                 SpringApplication.run(Main.class, args);
 
-        printBeans(applicationContext);
+//        printBeans(applicationContext);
 
     }
-
+    /*
     @Component
     public static class CustomBeanRunner implements CommandLineRunner {
         private final ProductService productService;
@@ -32,11 +32,14 @@ public class Main {
             this.productService = productService;
         }
 
+        // "String...": Special syntax called "varargs" (variable-length argument list).
+        // It allows the method to accept an arbitrary number of String arguments,
+        // including zero arguments.
         public void run(String... args) {
             productService.processProduct();
         }
     }
-
+    */
     private static void printBeans(ConfigurableApplicationContext cntx) {
         String[] beanDefinitionNames = cntx.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
