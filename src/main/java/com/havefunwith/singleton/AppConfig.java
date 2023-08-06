@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     /*
-        createProduct bean was created and kept in the AppliationContext
+        createProduct bean was created and kept in the ApplicationContext
         for future use.
      */
     @Bean
