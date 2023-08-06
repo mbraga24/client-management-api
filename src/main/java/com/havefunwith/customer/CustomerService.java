@@ -1,5 +1,6 @@
 package com.havefunwith.customer;
 
+import com.havefunwith.exception.ResourceNotFound;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,9 @@ public class CustomerService {
 
     public Customer getCustomer(Integer id) {
         return customerDAO.selectCustomerById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Customer id [%s] does not exist".formatted(id)));
+                .orElseThrow(() -> new ResourceNotFound(
+                        "Customer id [%s] does not exist".formatted(id)
+                ));
     }
 
 }
