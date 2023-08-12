@@ -1,11 +1,8 @@
 package com.havefunwith;
 
-import com.havefunwith.singleton.ProductService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
 
 
 @SpringBootApplication
