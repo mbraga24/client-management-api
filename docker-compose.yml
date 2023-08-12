@@ -5,15 +5,17 @@ services:
     environment:
       POSTGRES_USER: marlontest
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: customer
       PGDATA: /data/postgres
     volumes:
       - db:/data/postgres
     ports:
-      - "5332:5432" # 5332 -> request coming from localhost will be redirected to 5432 -> actual docker instance running on docker
+      - "5332:5432"
+#    env_file:
+#      - .env
     networks:
       - db
     restart: unless-stopped
-
 
 networks:
   db:
@@ -21,3 +23,4 @@ networks:
 
 volumes:
   db:
+  pgadmin:
