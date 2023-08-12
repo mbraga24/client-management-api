@@ -23,7 +23,7 @@ public class CustomerController {
     }
 
     @GetMapping("/api/v1/customers/{customerId}")
-    public Customer getCustomer(@PathVariable("customerId") Integer customerId) {
+    public Customer getCustomer(@PathVariable("customerId") Long customerId) {
         return customerService.getCustomer(customerId);
     }
 

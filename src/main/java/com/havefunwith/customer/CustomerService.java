@@ -18,7 +18,7 @@ public class CustomerService {
         return customerDAO.selectAllCustomers();
     }
 
-    public Customer getCustomer(Integer id) {
+    public Customer getCustomer(Long id) {
         return customerDAO.selectCustomerById(id)
                 .orElseThrow(() -> new ResourceNotFound(
                         "Customer id [%s] does not exist".formatted(id)

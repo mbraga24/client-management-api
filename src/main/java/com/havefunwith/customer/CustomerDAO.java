@@ -7,6 +7,6 @@ public interface CustomerDAO {
 
      List<Customer> selectAllCustomers();
 
-     Optional<Customer> selectCustomerById(Integer id);
+     Optional<Customer> selectCustomerById(Long id);
 
 }

@@ -14,8 +14,8 @@ public class CustomerDataAccessService implements CustomerDAO {
     static {
         customers = new ArrayList<>();
 
-        Customer john = new Customer(1, "John", 24, "john@email.com");
-        Customer keyla = new Customer(2, "Keyla", 28, "keila@email.com");
+        Customer john = new Customer((long) 1.0, "John", 24, "john@email.com");
+        Customer keyla = new Customer((long) 2.0, "Keyla", 28, "keila@email.com");
 
         customers.add(john);
         customers.add(keyla);
@@ -27,7 +27,7 @@ public class CustomerDataAccessService implements CustomerDAO {
     }
 
     @Override
-    public Optional<Customer> selectCustomerById(Integer id) {
+    public Optional<Customer> selectCustomerById(Long id) {
         return customers.stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst();

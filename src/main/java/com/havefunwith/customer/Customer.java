@@ -1,27 +1,44 @@
 package com.havefunwith.customer;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+
 import java.util.Objects;
 
+@Entity
 public class Customer {
-    private Integer id;
+
+    @Id
+    @SequenceGenerator(
+            name = "customer_id_sequence",
+            sequenceName = "customer_id_sequence"
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "customer_id_sequence"
+    )
+    private Long id;
     private String name;
     private Integer age;
     private String email;
 
     public Customer() {}
 
-    public Customer(Integer id, String name, Integer age, String email) {
+    public Customer(Long id, String name, Integer age, String email) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
