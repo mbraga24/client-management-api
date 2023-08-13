@@ -1,12 +1,27 @@
 package com.havefunwith;
 
+import com.havefunwith.customer.Customer;
+import com.havefunwith.customer.CustomerRepository;
+import com.havefunwith.customer.CustomerService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @SpringBootApplication
 public class Main {
+
+    private final CustomerService customerService;
+
+    public Main(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     public static void main(String[] args) {
         /*
@@ -17,8 +32,25 @@ public class Main {
         ConfigurableApplicationContext applicationContext =
                 SpringApplication.run(Main.class, args);
 
-//        printBeans(applicationContext);
+        //  printBeans(applicationContext);
 
+    }
+
+    @Bean
+    CommandLineRunner runner(CustomerRepository customerRepository) {
+        return args -> {
+            Customer john = new Customer(
+                    "John",
+                    24,
+                    "john@email.com");
+            Customer keyla = new Customer(
+                    "Keyla",
+                    28,
+                    "keila@email.com");
+
+            List<Customer> customers = List.of(john, keyla);
+            customerRepository.saveAll(customers);
+        };
     }
     /*
     @Component
@@ -36,12 +68,12 @@ public class Main {
             productService.processProduct();
         }
     }
-    */
+
     private static void printBeans(ConfigurableApplicationContext cntx) {
         String[] beanDefinitionNames = cntx.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
             System.out.println(beanDefinitionName);
         }
     }
-
+    */
 }
