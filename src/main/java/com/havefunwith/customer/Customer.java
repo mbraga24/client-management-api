@@ -32,12 +32,19 @@ public class Customer {
 
     public Customer() {}
 
+    public Customer(String name, Integer age, String email) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+    }
+
     public Customer(Long id, String name, Integer age, String email) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
     }
+
 
     public Long getId() {
         return id;
