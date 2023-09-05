@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: postgres
+    container_name: postgresdemo
     image: postgres
     environment:
       POSTGRES_USER: marlontest
