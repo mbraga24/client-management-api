@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository("list") // naming bean
 public class CustomerListDataAccessService implements CustomerDao {
@@ -36,6 +37,25 @@ public class CustomerListDataAccessService implements CustomerDao {
     @Override
     public void insertCustomer(Customer customer) {
         customers.add(customer);
+    }
+
+    @Override
+    public boolean existsPersonWithEmail(String email) {
+        return customers.stream()
+                .anyMatch(customer -> customer.getEmail().equals(email));
+    }
+
+    @Override
+    public boolean existsPersonById(Long id) {
+        return customers.stream()
+                .anyMatch(customer -> customer.getId().equals(id));
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        customers = customers.stream()
+                .filter(customer -> !customer.getId().equals(id))
+                .collect(Collectors.toList());
     }
 
 }

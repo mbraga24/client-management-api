@@ -11,4 +11,10 @@ public interface CustomerDao {
 
      void insertCustomer(Customer customer);
 
+     void deleteCustomer(Long id);
+
+     boolean existsPersonWithEmail(String email);
+
+     boolean existsPersonById(Long id);
+
 }

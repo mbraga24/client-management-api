@@ -1,12 +1,12 @@
 package com.havefunwith.customer;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("api/v1/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -17,14 +17,26 @@ public class CustomerController {
     }
 
     // @RequestMapping(value = "/api/v1/customers", method = RequestMethod.GET)
-    @GetMapping("/api/v1/customers")
+    @GetMapping
     public List<Customer> getCustomers() {
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("/api/v1/customers/{customerId}")
+    @GetMapping("{customerId}")
     public Customer getCustomer(@PathVariable("customerId") Long customerId) {
         return customerService.getCustomer(customerId);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> registerCustomer(@RequestBody CustomerRegistrationRequest request) {
+        customerService.addCustomer(request);
+        return ResponseEntity.ok("Customer successfully added");
+    }
+
+    @DeleteMapping("{customerId}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Long customerId) {
+        customerService.deleteCustomer(customerId);
+        return ResponseEntity.ok("Customer deleted successfully");
     }
 
 }
