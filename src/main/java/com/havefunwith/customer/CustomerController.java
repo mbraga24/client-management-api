@@ -39,4 +39,12 @@ public class CustomerController {
         return ResponseEntity.ok("Customer deleted successfully");
     }
 
+    @PutMapping("{customerId}")
+    public ResponseEntity<String> updateCustomer(
+            @PathVariable Long customerId,
+            @RequestBody CustomerUpdateRequest request) {
+        customerService.updateCustomer(customerId, request);
+        return ResponseEntity.ok("Customer updated successfully.");
+    }
+
 }
