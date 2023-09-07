@@ -1,5 +1,6 @@
 package com.havefunwith;
 
+import com.github.javafaker.Faker;
 import com.havefunwith.customer.Customer;
 import com.havefunwith.customer.CustomerRepository;
 import com.havefunwith.customer.CustomerService;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 
 @SpringBootApplication
@@ -38,18 +40,18 @@ public class Main {
 
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository) {
-        return args -> {
-            Customer john = new Customer(
-                    "John",
-                    24,
-                    "john@email.com");
-            Customer keyla = new Customer(
-                    "Keyla",
-                    28,
-                    "keila@email.com");
+        Faker faker = new Faker();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        Random random = new Random();
 
-            List<Customer> customers = List.of(john, keyla);
-//            customerRepository.saveAll(customers);
+        return args -> {
+            Customer customer = new Customer(
+                    firstName + " " + lastName,
+                    random.nextInt(18, 99),
+                    firstName + "." + lastName + "@email.com");
+
+            customerRepository.save(customer);
         };
     }
     /*
