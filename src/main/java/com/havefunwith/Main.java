@@ -49,7 +49,7 @@ public class Main {
                     "keila@email.com");
 
             List<Customer> customers = List.of(john, keyla);
-            customerRepository.saveAll(customers);
+//            customerRepository.saveAll(customers);
         };
     }
     /*
