@@ -3,17 +3,19 @@ package com.havefunwith.customer;
 import com.havefunwith.exception.DuplicatedResourceException;
 import com.havefunwith.exception.ResourceNotChangedException;
 import com.havefunwith.exception.ResourceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CustomerService {
 
     private final CustomerDao customerDAO;
 
-    public CustomerService(@Qualifier("jpa") CustomerDao customerDAO) {
+    public CustomerService(@Qualifier("jdbc") CustomerDao customerDAO) {
         this.customerDAO = customerDAO;
     }
 
@@ -52,7 +54,6 @@ public class CustomerService {
 
     public void updateCustomer(Long customerId, CustomerUpdateRequest updateRequest) {
         Customer customer = getCustomer(customerId);
-
         boolean changes = false;
 
         if (updateRequest.name() != null && !customer.getName().equals(updateRequest.name())) {
@@ -66,8 +67,7 @@ public class CustomerService {
         }
 
         if (updateRequest.email() != null && !customer.getEmail().equals(updateRequest.email())) {
-
-            if (!customerDAO.existsPersonWithEmail(updateRequest.email())) {
+            if (customerDAO.existsPersonWithEmail(updateRequest.email())) {
                 throw new DuplicatedResourceException(
                         "Customer with email [%s] already exist."
                                 .formatted(updateRequest.email()));
@@ -79,6 +79,7 @@ public class CustomerService {
         if (!changes) {
             throw new ResourceNotChangedException("No data changes found");
         }
+
         customerDAO.updateCustomer(customer);
     }
 
