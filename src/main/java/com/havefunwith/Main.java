@@ -28,7 +28,7 @@ public class Main {
             CustomerService customerService = new CustomerService(new CustomerDataAccessService());
             CustomerController customerController = new CustomerController(customerService);
          */
-        ConfigurableApplicationContext applicationContext =
+//        ConfigurableApplicationContext applicationContext =
                 SpringApplication.run(Main.class, args);
 
         //  printBeans(applicationContext);
