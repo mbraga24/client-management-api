@@ -1,6 +1,9 @@
-package com.havefunwith.customer;
+package com.havefunwith.customer.unit;
 
 import com.github.javafaker.Faker;
+import com.havefunwith.customer.Customer;
+import com.havefunwith.customer.CustomerJPADataAccessService;
+import com.havefunwith.customer.CustomerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
