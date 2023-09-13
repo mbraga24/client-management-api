@@ -1,6 +1,7 @@
-package com.havefunwith.customer;
+package com.havefunwith.customer.unit;
 
-import org.junit.jupiter.api.BeforeEach;
+import com.havefunwith.customer.Customer;
+import com.havefunwith.customer.CustomerRowMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -8,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerRowMapperTest {
 
