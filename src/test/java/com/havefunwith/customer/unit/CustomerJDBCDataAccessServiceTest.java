@@ -1,6 +1,9 @@
-package com.havefunwith.customer;
+package com.havefunwith.customer.unit;
 
 import com.havefunwith.AbstractTestcontainers;
+import com.havefunwith.customer.Customer;
+import com.havefunwith.customer.CustomerJDBCDataAccessService;
+import com.havefunwith.customer.CustomerRowMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;

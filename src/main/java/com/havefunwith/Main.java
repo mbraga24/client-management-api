@@ -3,11 +3,9 @@ package com.havefunwith;
 import com.github.javafaker.Faker;
 import com.havefunwith.customer.Customer;
 import com.havefunwith.customer.CustomerRepository;
-import com.havefunwith.customer.CustomerService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Random;
@@ -16,11 +14,11 @@ import java.util.Random;
 @SpringBootApplication
 public class Main {
 
-    private final CustomerService customerService;
+//    private final CustomerService customerService;
 
-    public Main(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+//    public Main(CustomerService customerService) {
+//        this.customerService = customerService;
+//    }
 
     public static void main(String[] args) {
         /*
@@ -28,7 +26,7 @@ public class Main {
             CustomerService customerService = new CustomerService(new CustomerDataAccessService());
             CustomerController customerController = new CustomerController(customerService);
          */
-        ConfigurableApplicationContext applicationContext =
+//        ConfigurableApplicationContext applicationContext =
                 SpringApplication.run(Main.class, args);
 
         //  printBeans(applicationContext);

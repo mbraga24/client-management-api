@@ -3,13 +3,11 @@ package com.havefunwith.customer;
 import com.havefunwith.exception.DuplicatedResourceException;
 import com.havefunwith.exception.ResourceNotChangedException;
 import com.havefunwith.exception.ResourceNotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
 @Service
 public class CustomerService {
 
