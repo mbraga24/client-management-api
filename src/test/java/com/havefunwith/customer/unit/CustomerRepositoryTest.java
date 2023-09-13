@@ -1,23 +1,21 @@
-package com.havefunwith.customer;
+package com.havefunwith.customer.unit;
 
 import com.havefunwith.AbstractTestcontainers;
+import com.havefunwith.customer.Customer;
+import com.havefunwith.customer.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@SpringBootTest // -- 239 beans from context
-@ComponentScan(basePackages = "com.havefunwith") // test works with this annotation
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DataJpaTest // when it should work just with this -- 96 beans from context
+@DataJpaTest
 class CustomerRepositoryTest extends AbstractTestcontainers {
 
     @Autowired
