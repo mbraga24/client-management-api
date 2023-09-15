@@ -40,11 +40,10 @@ class CustomerServiceTest {
     private final String email =  "john_doe@email.com";
 
     // Commented out manual initialization and injection of mocks as we're using @InjectMocks above.
-//    @BeforeEach
-//    void setUp() {
-//        underTest = new CustomerService(customerDao); // manually inject mocks into CustomerService
-//    }
-
+    //    @BeforeEach
+    //    void setUp() {
+    //        underTest = new CustomerService(customerDao); // manually inject mocks into CustomerService
+    //    }
 
     @Test
     void canGetAllCustomers() {
@@ -144,7 +143,6 @@ class CustomerServiceTest {
 
         // Verify that the DAO's method was never called and no values was passed.
         Mockito.verify(customerDao, never()).insertCustomer(any());
-
     }
 
     @Test
@@ -166,6 +164,7 @@ class CustomerServiceTest {
         Mockito.verify(customerDao)
                 .deleteCustomer(customerId);
     }
+
     /*
         TO DO COMMENTS
      */
@@ -186,9 +185,10 @@ class CustomerServiceTest {
 
         Mockito.verify(customerDao, never()).deleteCustomer(any());
     }
+
     /*
         TO DO COMMENTS
-     */
+    */
     @Test
     void willUpdateAllCustomerProperties() {
         // Given
@@ -285,6 +285,8 @@ class CustomerServiceTest {
         // with the given ID.
         Mockito.when(customerDao.selectCustomerById(customerId))
                 .thenReturn(Optional.of(customer));
+        Mockito.when(customerDao.existsPersonWithEmail(newEmail))
+                .thenReturn(false);
 
         //  When
         // Invoke the service under test with the provided update request
