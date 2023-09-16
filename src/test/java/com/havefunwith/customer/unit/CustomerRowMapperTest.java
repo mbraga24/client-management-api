@@ -12,6 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CustomerRowMapperTest {
 
+    /*
+        TO DO COMMENTS
+    */
     @Test
     void mapRow() throws SQLException {
         // Given
