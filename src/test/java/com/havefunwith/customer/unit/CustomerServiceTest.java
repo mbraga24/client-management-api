@@ -410,7 +410,7 @@ class CustomerServiceTest {
         //  Given
         // Define test data.
         long customerId = 10;
-        String existingEmail = email;
+        String existingEmail = "exists_" + email;
 
         // Create update request object with only the existing email
         // attribute.
