@@ -2,9 +2,8 @@ package com.havefunwith.customer.unit;
 
 import com.havefunwith.customer.*;
 import com.havefunwith.exception.DuplicatedResourceException;
+import com.havefunwith.exception.ResourceNotChangedException;
 import com.havefunwith.exception.ResourceNotFoundException;
-import net.bytebuddy.asm.Advice;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -12,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -20,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
+
 /*
     Business Layer Test
  */
@@ -37,7 +36,7 @@ class CustomerServiceTest {
     // Test data for mock customers.
     private final String name = "John Doe";
     private final Integer age = 23;
-    private final String email =  "john_doe@email.com";
+    private final String email = "john_doe@email.com";
 
     // Commented out manual initialization and injection of mocks as we're using @InjectMocks above.
     //    @BeforeEach
@@ -84,7 +83,9 @@ class CustomerServiceTest {
                 .thenReturn(Optional.empty());
 
         // Then
-        // Assert a specific exception is thrown when trying to fetch a non-existent customer.
+        // When given ID is passed to service under test method.
+        // Assert a specific exception is thrown when trying to fetch a non-existent
+        // customer.
         assertThatThrownBy(() -> underTest.getCustomer(customerId))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Customer with id [%s] does not exist".formatted(customerId));
@@ -135,13 +136,14 @@ class CustomerServiceTest {
         Mockito.when(customerDao.existsPersonWithEmail(email)).thenReturn(true);
 
         // Then
+        // When given customer request object is passed to service under test method.
         // Assert that adding a customer with a duplicate email throws the appropriate exception
         // with the correct message.
         assertThatThrownBy(() -> underTest.addCustomer(customerRequest))
                 .isInstanceOf(DuplicatedResourceException.class)
                 .hasMessage("Customer with email [%s] already exist.".formatted(email));
 
-        // Verify that the DAO's method was never called and no values was passed.
+        // Verify that the DAO's method was never called.
         Mockito.verify(customerDao, never()).insertCustomer(any());
     }
 
@@ -165,59 +167,77 @@ class CustomerServiceTest {
                 .deleteCustomer(customerId);
     }
 
-    /*
-        TO DO COMMENTS
-     */
     @Test
     void willThrowExceptionIfPersonIdIsNotFound() {
         // Given
         long customerId = 10;
 
         // When
+        // Mock DAO layer to return false if customer with given ID
+        // does not exist.
         Mockito.when(customerDao.existsPersonById(customerId))
                 .thenReturn(false);
 
 
         // Then
+        // When given ID is passed to service under test method.
+        // Assert that deleting a non-existing customer throws the expected exception
+        // with the correct message.
         assertThatThrownBy(() -> underTest.deleteCustomer(customerId))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Customer with id [%s] was not found.".formatted(customerId));
 
+        // Verify that the DAO method was never called.
         Mockito.verify(customerDao, never()).deleteCustomer(any());
     }
 
-    /*
-        TO DO COMMENTS
-    */
     @Test
     void willUpdateAllCustomerProperties() {
         // Given
-        long customerId = 10;
+        // Define test data.
         String newEmail = "john123@email.com";
         String newName = "Johnny";
         int newAge = 30;
+        long customerId = 10;
+
+        // Create an update request object that changes all attributes.
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
                 newName,
                 newEmail,
                 newAge
         );
+
+        // Create a mock customer object for the test.
         Customer customer = new Customer(customerId, name, age, email);
 
+        // Mock DAO layer to return test customer when fetching with
+        // the given ID.
         Mockito.when(customerDao.selectCustomerById(customerId))
                 .thenReturn(Optional.of(customer));
+
+        // Mock DAO layer to return false when person with the given ID
+        // does not exist.
         Mockito.when(customerDao.existsPersonWithEmail(newEmail))
                 .thenReturn(false);
+
         // When
+        // Invoke the method of the service under test with the given ID and
+        // update request object.
         underTest.updateCustomer(customerId, updateRequest);
 
         // Then
+        // Use ArgumentCaptor to capture the customer object the DAO's method
+        // receives.
         ArgumentCaptor<Customer> customerArgumentCaptor =
                 ArgumentCaptor.forClass(Customer.class);
 
+        // Verify that the DAO's method was called and capture its argument.
         Mockito.verify(customerDao).updateCustomer(customerArgumentCaptor.capture());
 
+        // Retrieve the captured customer object argument from ArgumentCaptor
         Customer capturedCustomer = customerArgumentCaptor.getValue();
 
+        // Assert that all attributes were updated.
         assertThat(capturedCustomer.getName()).isEqualTo(updateRequest.name());
         assertThat(capturedCustomer.getEmail()).isEqualTo(updateRequest.email());
         assertThat(capturedCustomer.getAge()).isEqualTo(updateRequest.age());
@@ -239,13 +259,13 @@ class CustomerServiceTest {
         Customer customer = new Customer(customerId, name, age, email);
 
         // Mock the DAO layer to return test customer when fetching
-        // by the given ID.
+        // with the given ID.
         Mockito.when(customerDao.selectCustomerById(customerId))
                 .thenReturn(Optional.of(customer));
 
         // When
         // Invoke method of the service under test with provided customer ID
-        // and update request.
+        // and update request object.
         underTest.updateCustomer(customerId, updateRequest);
 
         // Then
@@ -285,6 +305,9 @@ class CustomerServiceTest {
         // with the given ID.
         Mockito.when(customerDao.selectCustomerById(customerId))
                 .thenReturn(Optional.of(customer));
+
+        // Mock DAO layer method to return false if person with the given
+        // email does not exist.
         Mockito.when(customerDao.existsPersonWithEmail(newEmail))
                 .thenReturn(false);
 
@@ -355,22 +378,66 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getEmail()).isEqualTo(email);
         assertThat(capturedCustomer.getAge()).isEqualTo(updateRequest.age());
     }
-    /*
-        TO DO COMMENTS
-     */
+
     @Test
-    void willThrowResourceNotChangeException() {
+    void updateWillThrowResourceNotChangeException() {
         //  Given
-        //  When
+        // Define test data.
+        long customerId = 10;
+
+        // Create update request object with all null values.
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(null, null, null);
+
+        // Create mock customer object for the test.
+        Customer customer = new Customer(name, age, email);
+
+        // Mock DAO layer to return a test customer when fetching
+        // with the given ID.
+        Mockito.when(customerDao.selectCustomerById(customerId))
+                .thenReturn(Optional.of(customer));
+
         //  Then
+        // When given ID and update request object are passed to service under test
+        // method. Assert that when attributes from the update request are null or
+        // unchanged throws the expected exception with the correct message.
+        assertThatThrownBy(() -> underTest.updateCustomer(customerId, updateRequest))
+                .isInstanceOf(ResourceNotChangedException.class)
+                .hasMessage("No data changes found");
     }
-    /*
-        TO DO COMMENTS
-     */
+
     @Test
-    void willThrowDuplicatedResourceException() {
+    void updateWillThrowDuplicatedResourceException() {
         //  Given
-        //  When
+        // Define test data.
+        long customerId = 10;
+        String existingEmail = email;
+
+        // Create update request object with only the existing email
+        // attribute.
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
+                null, existingEmail, null
+        );
+
+        // Create mock customer object for test.
+        Customer customer = new Customer(name, age, email);
+
+        // Mock DAO layer method to return a customer test when fetching
+        // with given ID.
+        Mockito.when(customerDao.selectCustomerById(customerId))
+                .thenReturn(Optional.of(customer));
+
+        // Mock DAO layer method to return false when person with the given
+        // email exists.
+        Mockito.when(customerDao.existsPersonWithEmail(existingEmail))
+                .thenReturn(true);
+
         //  Then
+        // When given ID and update request object are passed to service under test
+        // method. Assert that when email already exist, throw the expected exception
+        // with the correct message.
+        assertThatThrownBy(() -> underTest.updateCustomer(customerId, updateRequest))
+                .isInstanceOf(DuplicatedResourceException.class)
+                .hasMessage("Customer with email [%s] already exist."
+                        .formatted(existingEmail));
     }
 }

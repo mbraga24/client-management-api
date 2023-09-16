@@ -32,6 +32,9 @@ class CustomerRepositoryTest extends AbstractTestcontainers {
         System.out.println("@BeforeEach :: getBeanDefinitionCount() ===> " + applicationContext.getBeanDefinitionCount());
     }
 
+    /*
+        TO DO COMMENTS
+     */
     @Test
     void existsCustomerByEmail() {
         String name = FAKER.name().fullName();
@@ -48,6 +51,9 @@ class CustomerRepositoryTest extends AbstractTestcontainers {
         assertThat(actual).isTrue();
     }
 
+    /*
+        TO DO COMMENTS
+    */
     @Test
     void existsCustomerByEmailFailsWhenEmailNotPresent() {
         String email = "foo";
@@ -56,7 +62,9 @@ class CustomerRepositoryTest extends AbstractTestcontainers {
 
         assertThat(actual).isFalse();
     }
-
+    /*
+        TO DO COMMENTS
+     */
     @Test
     void existsCustomerById() {
         String name = FAKER.name().fullName();
@@ -79,7 +87,9 @@ class CustomerRepositoryTest extends AbstractTestcontainers {
 
         assertThat(actual).isTrue();
     }
-
+    /*
+        TO DO COMMENTS
+     */
     @Test
     void existsCustomerByIdFailsWhenIdNotPresent() {
         long customerId = -1;
