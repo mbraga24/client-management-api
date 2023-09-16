@@ -14,6 +14,9 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/*
+    Data Access Layer or DAO (Data Access Object) Layer test
+ */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 class CustomerRepositoryTest extends AbstractTestcontainers {

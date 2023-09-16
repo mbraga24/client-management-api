@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import com.havefunwith.customer.Customer;
 import com.havefunwith.customer.CustomerRegistrationRequest;
+import com.havefunwith.customer.CustomerUpdateRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,7 +35,7 @@ public class CustomerControllerTest {
 
         String name = fakerName.fullName();
         String email = fakerName.lastName() + "_" + UUID.randomUUID() + "@emailtesting.com";
-        int age = RANDOM.nextInt(1, 99);
+        int age = RANDOM.nextInt(18, 99);
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 name, email, age
         );
@@ -61,7 +62,7 @@ public class CustomerControllerTest {
                 .returnResult()
                 .getResponseBody();
 
-        // customer is present
+        // check all customers are present
         Customer expectedCustomer = new Customer(
                 name, age, email
         );
@@ -70,7 +71,7 @@ public class CustomerControllerTest {
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
                 .contains(expectedCustomer);
 
-        // find customer by id
+        // find customer id through unique email
         long customerId = allCustomers.stream()
                 .filter(customer -> customer.getEmail().equals(email))
                 .map(customer -> customer.getId())
@@ -79,6 +80,7 @@ public class CustomerControllerTest {
 
         expectedCustomer.setId(customerId);
 
+        // check if customer was added successfully
         webTestClient.get()
                 .uri(CUSTOMER_URI + "/{id}", customerId)
                 .accept(MediaType.APPLICATION_JSON)
@@ -97,11 +99,12 @@ public class CustomerControllerTest {
 
         String name = fakerName.fullName();
         String email = fakerName.lastName() + "_" + UUID.randomUUID() + "@emailtesting.com";
-        int age = RANDOM.nextInt(1, 99);
+        int age = RANDOM.nextInt(18, 99);
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 name, email, age
         );
 
+        // create customer
         webTestClient.post()
                 .uri(CUSTOMER_URI)
                 .accept(MediaType.APPLICATION_JSON)
@@ -111,6 +114,7 @@ public class CustomerControllerTest {
                 .expectStatus()
                 .isOk();
 
+        // find all customer
         List<Customer> allCustomers = webTestClient.get()
                 .uri(CUSTOMER_URI)
                 .accept(MediaType.APPLICATION_JSON)
@@ -122,12 +126,14 @@ public class CustomerControllerTest {
                 .returnResult()
                 .getResponseBody();
 
+        // find customer id by email
         long customerId = allCustomers.stream()
                 .filter(customer -> customer.getEmail().equals(email))
                 .map(customer -> customer.getId())
                 .findFirst()
                 .orElseThrow();
 
+        // delete customer
         webTestClient.delete()
                 .uri(CUSTOMER_URI + "/{id}", customerId)
                 .accept(MediaType.APPLICATION_JSON)
@@ -135,6 +141,7 @@ public class CustomerControllerTest {
                 .expectStatus()
                 .isOk();
 
+        // check if customer was deleted
         webTestClient.get()
                 .uri(CUSTOMER_URI + "/{id}", customerId)
                 .accept(MediaType.APPLICATION_JSON)
@@ -145,7 +152,83 @@ public class CustomerControllerTest {
 
     @Test
     void canUpdateCustomer() {
+        Faker faker = new Faker();
+        Name fakerName = faker.name();
 
+        String name = fakerName.fullName();
+        String email = fakerName.lastName() + "_" + UUID.randomUUID() + "@emailtesting.com";
+        int age = RANDOM.nextInt(18, 99);
+
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name, email, age);
+
+        // create customer
+        webTestClient.post()
+                .uri(CUSTOMER_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(request), CustomerRegistrationRequest.class)
+                .exchange()
+                .expectStatus()
+                .isOk();
+
+        // find all customers
+        List<Customer> allCustomers = webTestClient.get()
+                .uri(CUSTOMER_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBodyList(new ParameterizedTypeReference<Customer>() {
+                })
+                .returnResult()
+                .getResponseBody();
+
+        // find customer id through email
+        long customerId = allCustomers.stream()
+                .filter(customer -> customer.getEmail().equals(email))
+                .map(customer -> customer.getId())
+                .findFirst()
+                .orElseThrow();
+
+        // update customer properties
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
+                fakerName.fullName() + " Updated",
+                fakerName.lastName() + "@updatedEmail.com",
+                RANDOM.nextInt(18, 99));
+
+        // update customer
+        webTestClient.put()
+                .uri(CUSTOMER_URI + "/{id}", customerId)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(updateRequest), CustomerUpdateRequest.class)
+                .exchange()
+                .expectStatus()
+                .isOk();
+
+        // expected customer
+        Customer expectedCustomer = new Customer(
+                updateRequest.name(),
+                updateRequest.age(),
+                updateRequest.email()
+        );
+
+        // add id to customer
+        expectedCustomer.setId(customerId);
+
+        // check if customer was updated successfully
+        Customer updatedCustomer = webTestClient.get()
+                .uri(CUSTOMER_URI + "/{id}", customerId)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(new ParameterizedTypeReference<Customer>() {
+                })
+                .returnResult()
+                .getResponseBody();
+
+        assertThat(updatedCustomer).isEqualTo(expectedCustomer);
     }
 
 }

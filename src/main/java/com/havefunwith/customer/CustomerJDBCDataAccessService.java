@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/*
+    Data Access Layer or DAO (Data Access Object) Layer
+ */
 @Slf4j
 @Repository("jdbc")
 public class CustomerJDBCDataAccessService implements CustomerDao {
