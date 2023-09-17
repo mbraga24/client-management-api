@@ -20,7 +20,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CustomerIT {
+public class CustomerIntegrationTest {
 
     @Autowired
     private WebTestClient webTestClient;
@@ -28,6 +28,9 @@ public class CustomerIT {
     private final String CUSTOMER_URI = "api/v1/customers";
     private final Random RANDOM = new Random();
 
+    /*
+        TO DO COMMENTS
+     */
     @Test
     void canRegisterACustomer() {
         Faker faker = new Faker();
@@ -92,6 +95,9 @@ public class CustomerIT {
                 .isEqualTo(expectedCustomer);
     }
 
+    /*
+        TO DO COMMENTS
+    */
     @Test
     void canDeleteCustomer() {
         Faker faker = new Faker();
@@ -149,7 +155,10 @@ public class CustomerIT {
                 .expectStatus()
                 .isNotFound();
     }
-
+    
+    /*
+        TO DO COMMENTS
+    */
     @Test
     void canUpdateCustomer() {
         Faker faker = new Faker();
