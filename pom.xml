@@ -19,7 +19,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
-<!--		<docker.username>mbraga01</docker.username>-->
+		<docker.username>mbraga01</docker.username>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -179,8 +179,7 @@
 						</platforms>
 					</from>
 					<to>
-						<image>docker.io/${organization.name}/${project.artifactId}:${project.version}</image>
-						<!--<image>docker.io/mbraga01/client-management-api:0.0.1-SNAPSHOT</image>-->
+						<image>docker.io/${docker.username}/${project.artifactId}:${project.version}</image>
 						<tags>
 							<tag>latest</tag>
 						</tags>
