@@ -14,11 +14,6 @@ spring:
       ddl-auto: validate # validates if the Customer entity matches with the schema with Flyway
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
         format_sql: true
     show-sql: true
-
-#networks:
-#  default:
-#    external:
-#      name: postgres
