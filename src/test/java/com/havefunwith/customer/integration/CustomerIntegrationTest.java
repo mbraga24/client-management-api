@@ -155,7 +155,7 @@ public class CustomerIntegrationTest {
                 .expectStatus()
                 .isNotFound();
     }
-    
+
     /*
         TO DO COMMENTS
     */
