@@ -1,11 +1,11 @@
-### Configuration files ###
-.env
-
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+### Configuration files ###
+.env
 
 ### STS ###
 .apt_generated
