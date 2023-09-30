@@ -35,5 +35,5 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      name: Build and run Unit & Integeration tests with Maven
-      - run: mvn -ntp -B verify
+      - name: Build and run Unit & Integeration tests with Maven
+        run: mvn -ntp -B verify
