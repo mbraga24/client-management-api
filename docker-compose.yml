@@ -1,7 +1,7 @@
 services:
   customerdb:
     container_name: client-mgmt-postgres
-    image: postgres:15.3
+    image: postgres:15.1
     environment:
       POSTGRES_USER: marlontest
       POSTGRES_PASSWORD: password
