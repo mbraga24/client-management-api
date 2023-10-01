@@ -28,9 +28,6 @@ public class CustomerIntegrationTest {
     private final String CUSTOMER_URI = "api/v1/customers";
     private final Random RANDOM = new Random();
 
-    /*
-        TO DO COMMENTS
-    */
     @Test
     void canRegisterACustomer() {
         Faker faker = new Faker();
