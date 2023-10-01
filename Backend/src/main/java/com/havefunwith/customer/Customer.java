@@ -16,6 +16,10 @@ import java.util.Objects;
 )
 public class Customer {
 
+    /**
+     * TESTING CHANGES IN ./backend
+     */
+
     @Id
     @SequenceGenerator(
             name = "customer_id_seq",
