@@ -12,15 +12,16 @@
 	<artifactId>client-management-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>client-management-api</name>
-	<organization>
-		<name>Marlon Braga</name>
-		<url>https://www.linkedin.com/in/marlon-braga/</url>
-	</organization>
+
 	<description>Demo project for Spring Boot</description>
+
 	<properties>
 		<java.version>17</java.version>
 		<docker.username>mbraga01</docker.username>
+		<docker.image.name>client-management-api</docker.image.name>
+		<docker.image.tag/>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -179,7 +180,8 @@
 						</platforms>
 					</from>
 					<to>
-						<image>docker.io/${docker.username}/${project.artifactId}:${project.version}</image>
+<!--						<image>docker.io/${docker.username}/${project.artifactId}:${project.version}</image>-->
+						<image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
 						<tags>
 							<tag>latest</tag>
 						</tags>
