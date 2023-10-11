@@ -2,7 +2,7 @@ name: CD - Deploy Backend
 # Set up action
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - main
     paths:
