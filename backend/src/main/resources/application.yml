@@ -1,0 +1,19 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5332/customer
+    username: marlontest
+    password: password
+  jpa:
+    hibernate:
+#      ddl-auto: create-drop
+      ddl-auto: validate # validates if the Customer entity matches with the schema with Flyway
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
+    show-sql: true

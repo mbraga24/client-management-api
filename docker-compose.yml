@@ -1,0 +1,39 @@
+services:
+  customerdb:
+    container_name: client-mgmt-postgres
+    image: postgres:15.3
+    environment:
+      POSTGRES_USER: marlontest
+      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: customer
+      PGDATA: /data/postgres
+    volumes:
+      - customerdb:/data/postgres
+    ports:
+      - "5332:5432"
+    networks:
+      - customerdb-network
+    restart: unless-stopped
+
+  client-mgmt-api:
+    container_name: client-mgmt-api
+    image: mbraga01/client-management-api
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://customerdb:5432/customer"
+    ports:
+      - "8088:8080"
+    networks:
+      - customerdb-network
+    depends_on:
+      - customerdb
+    restart: unless-stopped
+#    command:
+#      - --spring.datasource.url=jdbc:postgresql://customerdb:5432/customer
+
+networks:
+  customerdb-network:
+    driver: bridge
+
+volumes:
+  customerdb:
+  pgadmin:

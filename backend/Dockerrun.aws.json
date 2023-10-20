@@ -1,0 +1,23 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client-management-api",
+      "image": "mbraga01/client-management-api:latest",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ],
+      "environment": [
+        {
+          "name": "SPRING_DATASOURCE_URL",
+          "value": "jdbc:postgresql://awseb-e-kmi73tkhka-stack-awsebrdsdatabase-mmz6aaot9ma6.cihdls59lxtr.us-east-2.rds.amazonaws.com:5432/customer"
+        }
+      ]
+    }
+  ]
+}
