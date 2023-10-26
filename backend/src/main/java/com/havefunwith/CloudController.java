@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CloudController {
     record Cloud(boolean inTheSky) {}
+    // Change
     @GetMapping("/cloud")
     public Cloud getCloud() {
         return new Cloud(true);
