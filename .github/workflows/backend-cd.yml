@@ -59,7 +59,7 @@ jobs:
           sed -i -E 's_(mbraga01/client-management-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
           echo "Dockerrun.aws.json AFTER tag update"
           cat Dockerrun.aws.json
-      - name: Deploy to Elatic Beanstalk
+      - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -67,8 +67,8 @@ jobs:
           application_name: ${{ secrets.EB_APPLICATION_NAME }}
           environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
           version_label: ${{ steps.build-number.outputs.BUILD_NUMBER }}
-          region: ${{ secrets.EB_REGION }}
           version_description: ${{ github.SHA }}
+          region: ${{ secrets.EB_REGION }}
           deployment_package: backend/Dockerrun.aws.json
       - name: Commit and push Dockerrun.aws.json
         run: |
