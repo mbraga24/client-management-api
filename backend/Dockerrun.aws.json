@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "client-management-api",
-      "image": "mbraga01/client-management-api:26.10.2023.13.14.59",
+      "image": "mbraga01/client-management-api:13.11.2023.21.19.34",
       "essential": true,
       "memory": 512,
       "portMappings": [
