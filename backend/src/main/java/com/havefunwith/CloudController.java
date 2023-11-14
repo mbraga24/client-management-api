@@ -8,7 +8,6 @@ public class CloudController {
     record Cloud(boolean inTheSky) {}
 
     // Testing CI/CD - Slack integration
-    // ==================================
     @GetMapping("/cloud")
     public Cloud getCloud() {
         return new Cloud(true);
