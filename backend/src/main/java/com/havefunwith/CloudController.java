@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CloudController {
     record Cloud(boolean inTheSky) {}
 
-    // ==================================
     // Testing CI/CD - Slack integration
     // ==================================
     @GetMapping("/cloud")
