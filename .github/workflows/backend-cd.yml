@@ -50,11 +50,6 @@ jobs:
           java-version: '17'
           cache: 'maven'
       # Login to Docker Hub
-      - name: Send Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json'
-          --data '{"text": ":docker: Image tag:{{steps.build-number.outputs.BUILD_NUMBER}} pushed to ${{ secrets.DOCKER_REPO }}"}'
-          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -72,7 +67,11 @@ jobs:
       # Automate Docker image build and push using Maven and Jib, tagging it with the build number from the previous step
       - name: Build package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
-
+      - name: Send Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text": ":docker: Image tag:{{steps.build-number.outputs.BUILD_NUMBER}} pushed to ${{ secrets.DOCKER_REPO }}"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       # Update Dockerrun.aws.json file with new image tag
       - name: Update Dockerrun.aws.json API image tag with new build number
         run: |
@@ -81,11 +80,6 @@ jobs:
           sed -i -E 's_(mbraga01/client-management-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
           echo "Dockerrun.aws.json AFTER tag update"
           cat Dockerrun.aws.json
-      - name: Send Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json' 
-          --data '{"text": ":docker: Image tag:{{steps.build-number.outputs.BUILD_NUMBER}} pushed to ${{ secrets.DOCKER_REPO }}"}'
-          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json'
