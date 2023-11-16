@@ -3,16 +3,16 @@ package com.havefunwith;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/*
-    @RestController
+/**
+ * @ResController -- Testing
  */
 @RestController
 public class CloudController {
-    record Cloud(boolean inTheSky) {}
+    record Cloud(boolean inTheSky, String msg) {}
 
 //    Testing CI/CD with Slack Integration
     @GetMapping("/cloud")
     public Cloud getCloud() {
-        return new Cloud(true);
+        return new Cloud(true, "It works!");
     }
 }
