@@ -70,7 +70,7 @@ jobs:
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text": ":docker: Image tag:{{steps.build-number.outputs.BUILD_NUMBER}} pushed to ${{ secrets.DOCKER_REPO }}"}'
+          --data '{"text": ":docker: Image tag:${{steps.build-number.outputs.BUILD_NUMBER}} pushed to ${{ secrets.DOCKER_REPO }}"}'
           ${{ secrets.SLACK_WEBHOOK_URL }}
       # Update Dockerrun.aws.json file with new image tag
       - name: Update Dockerrun.aws.json API image tag with new build number
