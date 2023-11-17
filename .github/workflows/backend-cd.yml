@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Send Discord message
         run: >
-          curl -X POST -H 'Content-type: application/json'
+          curl -H 'Content-type: application/json'
           --data '{"username": "Dev", "content": ":github: https://github.com/mbraga24/client-management-api/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}'
           ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Slack commit message and sha
@@ -92,7 +92,7 @@ jobs:
           ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Send Discord Message
         run: >
-          curl -X POST -H 'Content-type: application/json'
+          curl -H 'Content-type: application/json'
           --data '{"username": "Dev", "content": ":aws: Starting deployment to Elastic Beanstalk"}'
           ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Deploy to Elastic Beanstalk
@@ -126,7 +126,7 @@ jobs:
           ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Send Discord message
         run: >
-          curl -X POST -H 'Content-type: application/json'
+          curl -H 'Content-type: application/json'
           --data '{"username": "Dev", "content": "Deployment completed :success: - ${{ secrets.EB_ENVIRONMENT_URL }} :celebrate:"}'
           ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Send Slack Message
@@ -135,9 +135,9 @@ jobs:
           curl -X POST -H 'Content-type: application/json' 
           --data '{"text":"Job Status: ${{ job.status }} :party_yay:"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Send discord message
+      - name: Send Discord message
         run: >
-          curl -X POST -H 'Content-type: application/json'
+          curl -H 'Content-type: application/json'
           --data '{"username": "Dev", "content": "Job status: ${{ job.status }} :party_yay:"}'
           ${{ secrets.DISCORD_WEBHOOK_URL }}
     
