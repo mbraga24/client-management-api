@@ -118,5 +118,5 @@ jobs:
         if: always()
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":"Job Status ${{ job.status }}"}' 
+          --data '{"text":"Job Status ${{ job.status == 'success' ? job.status :party_yay: : job.status :blob_fail: }}"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
