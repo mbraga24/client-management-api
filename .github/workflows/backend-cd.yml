@@ -36,7 +36,7 @@ jobs:
       - name: Send Discord message
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"username": "Dev", "content": ""}'
+          --data '{"username": "Dev", "content": ":github: https://github.com/mbraga24/client-management-api/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}'
           ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Slack commit message and sha
         run: >
@@ -93,7 +93,7 @@ jobs:
       - name: Send Discord Message
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"username": "Dev", "content": ":loading: Starting deployment to Elastic Beanstalk"}'
+          --data '{"username": "Dev", "content": ":aws: Starting deployment to Elastic Beanstalk"}'
           ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
@@ -124,11 +124,11 @@ jobs:
           curl -X POST -H 'Content-type: application/json' 
           --data '{"text":"Deployment completed :success: - ${{ secrets.EB_ENVIRONMENT_URL }} :celebrate:"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Send discord message
-          run: >
-            curl -X POST -H 'Content-type: application/json'
-            --data '{"username": "Dev", "content": "Deployment completed :success: - ${{ secrets.EB_ENVIRONMENT_URL }} :celebrate:"}'
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+      - name: Send Discord message
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"username": "Dev", "content": "Deployment completed :success: - ${{ secrets.EB_ENVIRONMENT_URL }} :celebrate:"}'
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Send Slack Message
         if: always()
         run: >
