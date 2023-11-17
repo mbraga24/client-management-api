@@ -16,4 +16,9 @@ public class CloudController {
     public Cloud getCloud() {
         return new Cloud(true, "App works!");
     }
+
+    @GetMapping("/v2/cloud")
+    public Cloud getCloudV2() {
+        return new Cloud(true, "App works!");
+    }
 }

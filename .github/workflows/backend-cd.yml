@@ -34,8 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Send Discord message
-        run: >
-          curl -H 'Content-type: application/json'
+        script: |
+          curl -H 'Content-type: application/json'  
           --data '{"username": "Dev", "content": ":github: https://github.com/mbraga24/client-management-api/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}'
           ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Slack commit message and sha
