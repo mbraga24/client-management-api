@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class CloudController {
     record Cloud(boolean inTheSky, String message) {}
 
-//    Testing CI/CD with Slack Integration
     @GetMapping("/cloud")
     public Cloud getCloud() {
+        return new Cloud(true, "App works!");
+    }
+
+    @GetMapping("/v2/cloud")
+    public Cloud getCloudV2() {
         return new Cloud(true, "App works!");
     }
 }
