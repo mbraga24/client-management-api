@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CloudController {
     record Cloud(boolean inTheSky, String message) {}
 
-    // Endpoint to test EB deploy
     @GetMapping("/cloud")
     public Cloud getCloud() {
         return new Cloud(true, "App works!");
