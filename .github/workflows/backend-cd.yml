@@ -33,18 +33,11 @@ jobs:
     # Clone repo & set up Java
     steps:
       - uses: actions/checkout@v4
-      - name: Send Discord message
-        run: >
-          curl -H "Content-Type: multipart/form-data" \
-          -F 'payload_json={"username" : "Dev", "content": "https://github.com/mbraga24/client-management-api/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}' \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
-
       - name: Slack commit message and sha
         run: >
           curl -X POST -H 'Content-type: application/json'
           --data '{"text":":github: https://github.com/mbraga24/client-management-api/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
-
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json'
@@ -91,11 +84,6 @@ jobs:
           curl -X POST -H 'Content-type: application/json'
           --data '{"text": ":aws: Starting deployment to Elastic Beanstalk"}'
           ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Send Discord Message
-        run: >
-          curl -H 'Content-type: application/json'
-          --data '{"username": "Dev", "content": ":aws: Starting deployment to Elastic Beanstalk"}'
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -125,20 +113,10 @@ jobs:
           curl -X POST -H 'Content-type: application/json' 
           --data '{"text":"Deployment completed :success: - ${{ secrets.EB_ENVIRONMENT_URL }} :celebrate:"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Send Discord message
-        run: >
-          curl -H 'Content-type: application/json'
-          --data '{"username": "Dev", "content": "Deployment completed :success: - ${{ secrets.EB_ENVIRONMENT_URL }} :celebrate:"}'
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Send Slack Message
         if: always()
         run: >
           curl -X POST -H 'Content-type: application/json' 
           --data '{"text":"Job Status: ${{ job.status }} :party_yay:"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Send Discord message
-        run: >
-          curl -H 'Content-type: application/json'
-          --data '{"username": "Dev", "content": "Job status: ${{ job.status }} :party_yay:"}'
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
     
