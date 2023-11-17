@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @ResController
  *
- * CloudController for testing Slack integration
+ * CloudController for testing EB deployment, Slack & Discord integration
  */
 @RestController
 public class CloudController {

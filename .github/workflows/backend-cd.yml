@@ -33,6 +33,11 @@ jobs:
     # Clone repo & set up Java
     steps:
       - uses: actions/checkout@v4
+      - name: Send Discord message
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"username": "Dev", "content": ""}'
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
       - name: Slack commit message and sha
         run: >
           curl -X POST -H 'Content-type: application/json'
@@ -118,5 +123,11 @@ jobs:
         if: always()
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":"Job Status ${{ job.status == 'success' ? job.status :party_yay: : job.status :blob_fail: }}"}' 
+          --data '{"text":"Job Status ${{ job.status == '\''success'\'' ? job.status : (job.status == '\''party_yay'\'' ? '\''party_yay'\'' : '\''blob_fail'\'') }}"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send discord message
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"username": "Dev", "content": "Job status ${{ job.status }}"}'
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+    
